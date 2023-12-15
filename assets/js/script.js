@@ -79,7 +79,7 @@ function chooseCity(city) {
 
                 const div = $('<div>');
                 div.addClass('col');
-                div.css({"color": "white"})
+                div.css({ "color": "white", "background-image": "url(/assets/images/header-background.svg)", "background-repeat": "no-repeat", "background-size": "cover", "border-radius": "8px" })
                 forecasts.append(div);
 
                 // Date for each day
