@@ -24,6 +24,8 @@ const cityNameHeader = $('.city-name-header');
 const currentTemperatureHeader = $('.current-temperature');
 const currentWindSpeedHeader = $('.current-wind-speed');
 const currentHumidityHeader = $('.current-humidity');
+const todaysIcon = $('.todays-icon');
+const forecasts = $('.forecasts');
 
 function chooseCity(city) {
 
@@ -40,6 +42,10 @@ function chooseCity(city) {
 
             // City Name 
             const cityName = data.city.name;
+            const currentWeatherIcon = data.list[0].weather[0].icon;
+            const currentWeatherIconLink = "http://openweathermap.org/img/w/" + currentWeatherIcon + ".png";
+            $('.current-icon').attr('src', currentWeatherIconLink);
+
             const todaysDate = dayjs().format('D/M/YYYY');
             cityNameHeader.text(`${cityName} ${todaysDate}`);
 
@@ -54,6 +60,68 @@ function chooseCity(city) {
             // Current Humidity
             const currentHumidity = data.list[0].main.humidity;
             currentHumidityHeader.text(`Humidity: ${currentHumidity}%`);
+
+            let middayArray = [];
+
+            for (let i = 0; i < data.list.length; i++) {
+                let eachMidday = data.list[i].dt_txt.substring(10);
+                let arrayContainsMidday = (eachMidday.indexOf("12:00:00") > -1);
+                if (arrayContainsMidday) {
+                    middayArray.push(data.list[i]);
+                }
+            }
+
+
+
+
+            middayArray.forEach((day) => {
+                console.log(day);
+
+                const div = $('<div>');
+                div.addClass('col');
+                div.css({"color": "white"})
+                forecasts.append(div);
+
+                // Date for each day
+                const date = day.dt_txt.substring(0, 10);
+                const dateHeading = $('<h4>');
+                dateHeading.text(dayjs(date).format('D/M/YYYY'));
+                div.append(dateHeading);
+                console.log(dateHeading);
+
+                // Icon for each day
+                const icon = "http://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
+                const img = $('<img>');
+                img.attr('src', icon);
+                div.append(img);
+                console.log(icon);
+
+                // Temperature for each day
+                const temp = day.main.temp;
+                const tempText = $('<p>');
+                tempText.text(`Temp: ${temp} °C`);
+                div.append(tempText);
+                console.log(temp);
+
+                // Wind Speed for each day
+                const wind = day.wind.speed;
+                const windText = $('<p>');
+                windText.text(`Wind: ${wind} KPH`);
+                div.append(windText);
+                console.log(wind);
+
+                // Humidity for each day
+                const humidity = day.main.humidity;
+                const humidityText = $('<p>');
+                humidityText.text(`Humidity: ${humidity}%`);
+                div.append(humidityText);
+                console.log(humidity);
+            })
+
+
+
+
+
 
         })
 }
