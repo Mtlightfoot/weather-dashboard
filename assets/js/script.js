@@ -28,6 +28,7 @@ const todaysIcon = $('.todays-icon');
 const forecasts = $('.forecasts');
 const forecast = $('#forecast');
 const cityHistory = $('#history');
+const fiveDay = $('.fiveDay');
 
 function chooseCity(city) {
 
@@ -74,6 +75,9 @@ function chooseCity(city) {
             }
 
             forecast.addClass('border-top');
+            fiveDay.removeAttr('hidden');
+
+            forecasts.empty();
 
             middayArray.forEach((day) => {
                 console.log(day);
