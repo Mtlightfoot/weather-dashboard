@@ -7,3 +7,12 @@
 .main-container {
     margin-top: 50px;
 }
+
+.forecast-card {
+    color: white;
+    background-image: url(/assets/images/header-background.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+    margin: 10px;
+}

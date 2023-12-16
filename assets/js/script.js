@@ -26,6 +26,7 @@ const currentWindSpeedHeader = $('.current-wind-speed');
 const currentHumidityHeader = $('.current-humidity');
 const todaysIcon = $('.todays-icon');
 const forecasts = $('.forecasts');
+const forecast = $('#forecast');
 
 function chooseCity(city) {
 
@@ -72,14 +73,17 @@ function chooseCity(city) {
             }
 
 
-
+            forecast.addClass('border-top');
+            const fiveDayForecast = $('<h3>');
+            fiveDayForecast.text('5-Day Forecast: ');
+            fiveDayForecast.addClass('mt-3 form-label');
+            forecast.prepend(fiveDayForecast);
 
             middayArray.forEach((day) => {
                 console.log(day);
 
                 const div = $('<div>');
-                div.addClass('col');
-                div.css({ "color": "white", "background-image": "url(/assets/images/header-background.svg)", "background-repeat": "no-repeat", "background-size": "cover", "border-radius": "8px" })
+                div.addClass('col forecast-card');
                 forecasts.append(div);
 
                 // Date for each day
