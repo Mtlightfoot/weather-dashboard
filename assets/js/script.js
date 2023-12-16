@@ -42,8 +42,6 @@ function chooseCity(city) {
             return response.json();
         })
         .then(function (data) {
-            // A console log of the fetched data
-            console.log(data);
 
             // City Name 
             const cityName = data.city.name;
@@ -82,7 +80,6 @@ function chooseCity(city) {
             forecasts.empty();
 
             middayArray.forEach((day) => {
-                console.log(day);
 
                 const div = $('<div>');
                 div.addClass('col forecast-card');
@@ -93,51 +90,50 @@ function chooseCity(city) {
                 const dateHeading = $('<h4>');
                 dateHeading.text(dayjs(date).format('D/M/YYYY'));
                 div.append(dateHeading);
-                console.log(dateHeading);
 
                 // Icon for each day
                 const icon = "http://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
                 const img = $('<img>');
                 img.attr('src', icon);
                 div.append(img);
-                console.log(icon);
 
                 // Temperature for each day
                 const temp = day.main.temp;
                 const tempText = $('<p>');
                 tempText.text(`Temp: ${temp} °C`);
                 div.append(tempText);
-                console.log(temp);
 
                 // Wind Speed for each day
                 const wind = day.wind.speed;
                 const windText = $('<p>');
                 windText.text(`Wind: ${wind} KPH`);
                 div.append(windText);
-                console.log(wind);
 
                 // Humidity for each day
                 const humidity = day.main.humidity;
                 const humidityText = $('<p>');
                 humidityText.text(`Humidity: ${humidity}%`);
                 div.append(humidityText);
-                console.log(humidity);
             })
 
+            const cityLowercase = city.toLowerCase();
 
             // Button creation for history of searched cities
+            console.log(previousCities)
 
-            const cityButton = $('<button>');
-            cityButton.text(city);
-            cityButton.addClass('btn mt-3 btn-secondary');
-            cityHistory.prepend(cityButton);
+            if (previousCities.includes(cityLowercase) === false) {
+                console.log("bruh")
+                const cityButton = $('<button>');
+                cityButton.text(city);
+                cityButton.addClass('btn mt-3 btn-secondary historyBtn');
+                cityHistory.prepend(cityButton);
+                cityButton.on('click', function (event) {
+                    event.preventDefault();
+                    chooseCity(this.textContent);
+                })
+            }
 
-            cityButton.on('click', function (event) {
-                event.preventDefault();
-                chooseCity(this.val());
-            })
-
-            previousCities.push(city);
+            previousCities.push(cityLowercase);
         })
 }
 
@@ -145,8 +141,4 @@ submitButton.on('click', function (event) {
     event.preventDefault();
     const userCityInput = searchInput.val();
     chooseCity(userCityInput);
-})
-
-
-
-
+});
