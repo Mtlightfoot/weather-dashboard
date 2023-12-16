@@ -151,7 +151,7 @@ function chooseCity(city) {
                         chooseCity(this.textContent);
                     })
                 }
-
+                clearButton.removeAttr('hidden')
                 localStorage.setItem("local-history", JSON.stringify(previousCities));
             }
         })
@@ -163,7 +163,6 @@ submitButton.on('click', function (event) {
     console.log(typeof userCityInput)
     if (userCityInput != "") {
         chooseCity(userCityInput);
-        clearButton.removeAttr('hidden');
     }
 });
 
@@ -171,5 +170,6 @@ clearButton.on('click', function (event) {
     event.preventDefault();
     clearButton.attr("hidden", "hidden");
     localStorage.clear();
+    previousCities = [];
     cityHistory.empty();
 });
