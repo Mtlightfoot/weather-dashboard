@@ -156,8 +156,10 @@ function chooseCity(city) {
 submitButton.on('click', function (event) {
     event.preventDefault();
     const userCityInput = searchInput.val();
-    chooseCity(userCityInput);
-    clearButton.removeAttr('hidden');
+    if (userCityInput != "") {
+        chooseCity(userCityInput);
+        clearButton.removeAttr('hidden');
+    }
 });
 
 clearButton.on('click', function (event) {
