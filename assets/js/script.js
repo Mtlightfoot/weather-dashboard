@@ -30,6 +30,8 @@ const forecast = $('#forecast');
 const cityHistory = $('#history');
 const fiveDay = $('.fiveDay');
 
+const previousCities = [];
+
 function chooseCity(city) {
 
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=metric&appid=5b24cae96a98f68f0e09599b72878057";
@@ -130,11 +132,12 @@ function chooseCity(city) {
             cityButton.addClass('btn mt-3 btn-secondary');
             cityHistory.prepend(cityButton);
 
+            cityButton.on('click', function (event) {
+                event.preventDefault();
+                chooseCity(this.val());
+            })
 
-
-
-
-
+            previousCities.push(city);
         })
 }
 
@@ -143,5 +146,7 @@ submitButton.on('click', function (event) {
     const userCityInput = searchInput.val();
     chooseCity(userCityInput);
 })
+
+
 
 
