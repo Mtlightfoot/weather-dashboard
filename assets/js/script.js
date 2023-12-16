@@ -27,6 +27,7 @@ const currentHumidityHeader = $('.current-humidity');
 const todaysIcon = $('.todays-icon');
 const forecasts = $('.forecasts');
 const forecast = $('#forecast');
+const cityHistory = $('#history');
 
 function chooseCity(city) {
 
@@ -72,12 +73,7 @@ function chooseCity(city) {
                 }
             }
 
-
             forecast.addClass('border-top');
-            const fiveDayForecast = $('<h3>');
-            fiveDayForecast.text('5-Day Forecast: ');
-            fiveDayForecast.addClass('mt-3 form-label');
-            forecast.prepend(fiveDayForecast);
 
             middayArray.forEach((day) => {
                 console.log(day);
@@ -121,6 +117,14 @@ function chooseCity(city) {
                 div.append(humidityText);
                 console.log(humidity);
             })
+
+
+            // Button creation for history of searched cities
+
+            const cityButton = $('<button>');
+            cityButton.text(city);
+            cityButton.addClass('btn mt-3 btn-secondary');
+            cityHistory.prepend(cityButton);
 
 
 
