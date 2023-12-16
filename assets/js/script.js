@@ -29,8 +29,25 @@ const forecasts = $('.forecasts');
 const forecast = $('#forecast');
 const cityHistory = $('#history');
 const fiveDay = $('.fiveDay');
+const clearButton = $('.clearBtn');
 
-const previousCities = [];
+let previousCities = JSON.parse(localStorage.getItem('local-history'));
+if (previousCities === null) {
+    previousCities = [];
+} else {
+    clearButton.removeAttr('hidden');
+    previousCities.forEach((city) => {
+        const cityButton = $('<button>');
+        cityButton.text(city);
+        cityButton.addClass('btn mt-3 btn-secondary historyBtn');
+        cityHistory.prepend(cityButton);
+        cityButton.on('click', function (event) {
+            event.preventDefault();
+            chooseCity(this.textContent);
+
+        })
+    })
+}
 
 function chooseCity(city) {
 
@@ -122,18 +139,19 @@ function chooseCity(city) {
             console.log(previousCities)
 
             if (previousCities.includes(cityLowercase) === false) {
-                console.log("bruh")
                 const cityButton = $('<button>');
                 cityButton.text(city);
                 cityButton.addClass('btn mt-3 btn-secondary historyBtn');
                 cityHistory.prepend(cityButton);
+                previousCities.push(cityLowercase);
                 cityButton.on('click', function (event) {
                     event.preventDefault();
                     chooseCity(this.textContent);
                 })
             }
 
-            previousCities.push(cityLowercase);
+            localStorage.setItem("local-history", JSON.stringify(previousCities));
+
         })
 }
 
@@ -141,4 +159,12 @@ submitButton.on('click', function (event) {
     event.preventDefault();
     const userCityInput = searchInput.val();
     chooseCity(userCityInput);
+    clearButton.removeAttr('hidden');
+});
+
+clearButton.on('click', function (event) {
+    event.preventDefault();
+    clearButton.attr("hidden", "hidden");
+    localStorage.clear();
+    cityHistory.empty();
 });
