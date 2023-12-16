@@ -63,7 +63,7 @@ function chooseCity(city) {
             // City Name 
             const cityName = data.city.name;
             const currentWeatherIcon = data.list[0].weather[0].icon;
-            const currentWeatherIconLink = "http://openweathermap.org/img/w/" + currentWeatherIcon + ".png";
+            const currentWeatherIconLink = "https://openweathermap.org/img/w/" + currentWeatherIcon + ".png";
             $('.current-icon').attr('src', currentWeatherIconLink);
 
             const todaysDate = dayjs().format('D/M/YYYY');
@@ -109,7 +109,7 @@ function chooseCity(city) {
                 div.append(dateHeading);
 
                 // Icon for each day
-                const icon = "http://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
+                const icon = "https://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
                 const img = $('<img>');
                 img.attr('src', icon);
                 div.append(img);
@@ -136,8 +136,6 @@ function chooseCity(city) {
             const cityLowercase = city.toLowerCase();
 
             // Button creation for history of searched cities
-            console.log(previousCities)
-
             if (previousCities.includes(cityLowercase) === false) {
                 const cityButton = $('<button>');
                 cityButton.text(city);
