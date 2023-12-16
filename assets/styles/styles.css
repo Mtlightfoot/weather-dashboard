@@ -1,5 +1,5 @@
 .weather-header {
-    background-image: url(/assets/images/header-background.svg);
+    background-image: url(assets/images/header-background.svg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -10,7 +10,7 @@
 
 .forecast-card {
     color: white;
-    background-image: url(/assets/images/header-background.svg);
+    background-image: url(assets/images/header-background.svg);
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 8px;
