@@ -60,102 +60,107 @@ function chooseCity(city) {
         })
         .then(function (data) {
 
-            // City Name 
-            const cityName = data.city.name;
-            const currentWeatherIcon = data.list[0].weather[0].icon;
-            const currentWeatherIconLink = "https://openweathermap.org/img/w/" + currentWeatherIcon + ".png";
-            $('.current-icon').attr('src', currentWeatherIconLink);
+            if (data.cod === "404") {
+                alert("City not found, please try again");
+            } else {
 
-            const todaysDate = dayjs().format('D/M/YYYY');
-            cityNameHeader.text(`${cityName} ${todaysDate}`);
+                // City Name 
+                const cityName = data.city.name;
+                const currentWeatherIcon = data.list[0].weather[0].icon;
+                const currentWeatherIconLink = "https://openweathermap.org/img/w/" + currentWeatherIcon + ".png";
+                $('.current-icon').attr('src', currentWeatherIconLink);
 
-            // Current Temperature
-            const currentTemperature = data.list[0].main.temp;
-            currentTemperatureHeader.text(`Temp: ${currentTemperature} °C`);
+                const todaysDate = dayjs().format('D/M/YYYY');
+                cityNameHeader.text(`${cityName} ${todaysDate}`);
 
-            // Current Wind Speed
-            const currentWind = data.list[0].wind.speed;
-            currentWindSpeedHeader.text(`Wind: ${currentWind} KPH`);
+                // Current Temperature
+                const currentTemperature = data.list[0].main.temp;
+                currentTemperatureHeader.text(`Temp: ${currentTemperature} °C`);
 
-            // Current Humidity
-            const currentHumidity = data.list[0].main.humidity;
-            currentHumidityHeader.text(`Humidity: ${currentHumidity}%`);
+                // Current Wind Speed
+                const currentWind = data.list[0].wind.speed;
+                currentWindSpeedHeader.text(`Wind: ${currentWind} m/s`);
 
-            let middayArray = [];
+                // Current Humidity
+                const currentHumidity = data.list[0].main.humidity;
+                currentHumidityHeader.text(`Humidity: ${currentHumidity}%`);
 
-            for (let i = 0; i < data.list.length; i++) {
-                let eachMidday = data.list[i].dt_txt.substring(10);
-                let arrayContainsMidday = (eachMidday.indexOf("12:00:00") > -1);
-                if (arrayContainsMidday) {
-                    middayArray.push(data.list[i]);
+                let middayArray = [];
+
+                for (let i = 0; i < data.list.length; i++) {
+                    let eachMidday = data.list[i].dt_txt.substring(10);
+                    let arrayContainsMidday = (eachMidday.indexOf("12:00:00") > -1);
+                    if (arrayContainsMidday) {
+                        middayArray.push(data.list[i]);
+                    }
                 }
-            }
 
-            forecast.addClass('border-top');
-            fiveDay.removeAttr('hidden');
+                forecast.addClass('border-top');
+                fiveDay.removeAttr('hidden');
 
-            forecasts.empty();
+                forecasts.empty();
 
-            middayArray.forEach((day) => {
+                middayArray.forEach((day) => {
 
-                const div = $('<div>');
-                div.addClass('col forecast-card');
-                forecasts.append(div);
+                    const div = $('<div>');
+                    div.addClass('col forecast-card');
+                    forecasts.append(div);
 
-                // Date for each day
-                const date = day.dt_txt.substring(0, 10);
-                const dateHeading = $('<h4>');
-                dateHeading.text(dayjs(date).format('D/M/YYYY'));
-                div.append(dateHeading);
+                    // Date for each day
+                    const date = day.dt_txt.substring(0, 10);
+                    const dateHeading = $('<h4>');
+                    dateHeading.text(dayjs(date).format('D/M/YYYY'));
+                    div.append(dateHeading);
 
-                // Icon for each day
-                const icon = "https://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
-                const img = $('<img>');
-                img.attr('src', icon);
-                div.append(img);
+                    // Icon for each day
+                    const icon = "https://openweathermap.org/img/w/" + day.weather[0].icon + ".png";
+                    const img = $('<img>');
+                    img.attr('src', icon);
+                    div.append(img);
 
-                // Temperature for each day
-                const temp = day.main.temp;
-                const tempText = $('<p>');
-                tempText.text(`Temp: ${temp} °C`);
-                div.append(tempText);
+                    // Temperature for each day
+                    const temp = day.main.temp;
+                    const tempText = $('<p>');
+                    tempText.text(`Temp: ${temp} °C`);
+                    div.append(tempText);
 
-                // Wind Speed for each day
-                const wind = day.wind.speed;
-                const windText = $('<p>');
-                windText.text(`Wind: ${wind} KPH`);
-                div.append(windText);
+                    // Wind Speed for each day
+                    const wind = day.wind.speed;
+                    const windText = $('<p>');
+                    windText.text(`Wind: ${wind} m/s`);
+                    div.append(windText);
 
-                // Humidity for each day
-                const humidity = day.main.humidity;
-                const humidityText = $('<p>');
-                humidityText.text(`Humidity: ${humidity}%`);
-                div.append(humidityText);
-            })
-
-            const cityLowercase = city.toLowerCase();
-
-            // Button creation for history of searched cities
-            if (previousCities.includes(cityLowercase) === false) {
-                const cityButton = $('<button>');
-                cityButton.text(city);
-                cityButton.addClass('btn mt-3 btn-secondary historyBtn');
-                cityHistory.prepend(cityButton);
-                previousCities.push(cityLowercase);
-                cityButton.on('click', function (event) {
-                    event.preventDefault();
-                    chooseCity(this.textContent);
+                    // Humidity for each day
+                    const humidity = day.main.humidity;
+                    const humidityText = $('<p>');
+                    humidityText.text(`Humidity: ${humidity}%`);
+                    div.append(humidityText);
                 })
+
+                const cityLowercase = city.toLowerCase();
+
+                // Button creation for history of searched cities
+                if (previousCities.includes(cityLowercase) === false) {
+                    const cityButton = $('<button>');
+                    cityButton.text(city);
+                    cityButton.addClass('btn mt-3 btn-secondary historyBtn');
+                    cityHistory.prepend(cityButton);
+                    previousCities.push(cityLowercase);
+                    cityButton.on('click', function (event) {
+                        event.preventDefault();
+                        chooseCity(this.textContent);
+                    })
+                }
+
+                localStorage.setItem("local-history", JSON.stringify(previousCities));
             }
-
-            localStorage.setItem("local-history", JSON.stringify(previousCities));
-
         })
 }
 
 submitButton.on('click', function (event) {
     event.preventDefault();
     const userCityInput = searchInput.val();
+    console.log(typeof userCityInput)
     if (userCityInput != "") {
         chooseCity(userCityInput);
         clearButton.removeAttr('hidden');
